@@ -1,0 +1,70 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+
+{% from "macros_render_field.html" import render_field with context %}
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" 
+integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />	
+	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="{{ url_for('static', filename='js/newItem.js') }}"></script>
+
+<style type="text/css">
+	#calculator * {font-size: 50px;}
+	#qtyText {font-size: 50px;}
+	#calculator table {border: solid 3px silver; border-spacing: 3px; background-color: #EEE; }
+	#calculator table td {border-spacing: 3px;}
+	input.display {width: 300px; text-align: right;}
+	td.buttons {border-top: solid 1px silver;}	
+	.buttonCalc {width: 90px; height: 90px;}
+	.upload-button {width: 400px; height: 200px;}
+	.btnaddchange {width: 200px; height: 200px; background-color: #99ffdd}
+	.divTableCell {height: 100px;font-size:20px;text-align:center;vertical-align:middle}
+	#btnchoosedep {width: 250px; height: 80px; color: red}
+	.chosensku {background-color: #2eb8b3;}
+	.label-text { font-weight: normal; font-size: 24px}
+	.value-text { font-size: 32px}
+	#itemName {width: 100%}
+</style>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Ввести новий товар по штрикоду</title>
+ </head>
+	
+   <body>
+      <form >
+		<div class="row">
+			<div class="col-sm-4 col-xs-12">
+				<div class="center-block">
+					{{ render_field("Штрихкод", sk, sk, "sk") }}
+					{{ render_field("Код відділу", idDep, idDep, "idDep") }}
+					<div class="control-group">
+					  <label class="control-label label-text">Назва товару:</label>
+					  <label id = "itemNameText" class="control-label value-text">
+							<input id = "itemName" type = "text" name = "item" />
+					  </label>
+					</div>		
+				</div>
+				<div class="center-block">
+					{{ render_field("", "", "", "info") }}
+				</div>
+				<div class="center-block">
+					<input id = "addNewItem" class="upload-button btn btn-primary " type="button" name="ok" value="Внести"/>
+				</div>
+			</div>
+		</div>
+      </form>
+
+
+<!-- javascript -->
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+  </body>
+	
+</html>

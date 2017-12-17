@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+
+{% from "macros_render_field.html" import render_field with context %}
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewpoint" content="width=device-width, initial-scale=1">
+
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="{{ url_for('static', filename='js/foundit.js') }}"></script>
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Результат пошуку по ШК</title>
+
+<style type="text/css">
+	#calculator * {font-size: 50px;}
+	#qtyText {font-size: 50px;}
+	#calculator table {border: solid 3px silver; border-spacing: 3px; background-color: #EEE; }
+	#calculator table td {border-spacing: 3px;}
+	input.display {width: 300px; text-align: right;}
+	td.buttons {border-top: solid 1px silver;}	
+	.buttonCalc {width: 90px; height: 90px;}
+	.upload-button {width: 400px; height: 200px; font-size: 50px}
+	.btnaddchange {width: 200px; height: 200px; background-color: #99ffdd; font-size:50px}
+	.divTableCell {height: 100px;font-size:20px;text-align:center;vertical-align:middle}
+	#btnchoosedep {width: 250px; height: 80px; color: red}
+	#btnskmanually {width: 250px; height: 80px; color: red}
+	.chosensku {background-color: #2eb8b3;}
+	.label-text { font-weight: normal; font-size: 24px}
+	.value-text { font-size: 32px}
+	.value-text { font-size: 32px}
+</style>
+
+</head>
+
+
+<body>
+<div class = "container1"> 
+	<div class="row">
+		<div class="col-sm-4">
+			<div class="center-block">
+				{% for row in result %}
+					{{ render_field("Назва", row.1, row.1, "nameGoods") }}
+					{{ render_field("Код 1С", row.0, row.0, "idKod") }}
+					{{ render_field("Штрихкод", row.2, row.2, "idSk") }}
+					{{ render_field("Відділ", param.1, param.2, "curDep") }}
+					{{ render_field("Код рядка", param.5, param.5, "idRow") }}
+				{% endfor %}	
+				<h1 id="qtySpan" {% if param.3 != 0 %} style="background-color: #2eb8b3; " {% endif %}>
+					К-сть: 
+					<span id="qtyText">{{param.3}} </span>
+				</h1>
+				<div id="total" class="control-group" style="background-color: #2eb8b3; ">
+				  <label class="control-label label-text">Разом:</label>
+				  <label class="control-label value-text">
+					<span id = "totalNumbers"> ... </span>
+				  </label>
+				</div>
+			</div>	
+		</div>	
+		<div class="col-sm-4">
+			<div class="center-block" id="calculator">
+					<table>
+					<tr>
+					<td>
+						<input id="inputQty" type="text" name="input" size="12" class="display" />
+					</td>
+					</tr>
+					<tr>
+					<td class="buttons">
+						<input class = "buttonCalc" type="button" name="one" value="1">
+						<input class = "buttonCalc" type="button" name="two" value="2">
+						<input class = "buttonCalc" type="button" name="three" value="3">
+						<br>
+						<input class = "buttonCalc" type="button" name="four" value="4">
+						<input class = "buttonCalc" type="button" name="five" value="5">
+						<input class = "buttonCalc" type="button" name="six" value="6">
+						<br>
+						<input class = "buttonCalc" type="button" name="seven" value="7">
+						<input class = "buttonCalc" type="button" name="eight" value="8">
+						<input class = "buttonCalc" type="button" name="nine" value="9">
+						<br>
+						<input class = "buttonCalc" type="button" name="clear" value="c">
+						<input class = "buttonCalc" type="button" name="zero" value="0" >
+						<input class = "buttonCalc" type="button" name="comma" value=",">
+					</td>
+					</tr>
+					</table>
+			</div>	
+		</div>	
+		<div class="col-sm-4">
+			<div class = "center-block">
+				{% if param.3 == 0 %}
+					{% set disabled = "disabled" %}
+				{% endif %}	
+				<input id = "change" type="button" value="Змінити" class="btn btn-primary btnaddchange" {{disabled}} />
+				<br />
+				<br />
+				<input id = "add" type="button" value="Додати" class="btn btn-primary btnaddchange" />
+			</div>
+		</div>
+	</div>	
+	<br />
+	<br />
+</div>	
+<div class = "container1"> 
+	<div class="row">
+		<div class="divTable" >
+			<div class="divTableBody">
+				<div class="divTableRow">
+					<div class="divTableCelltitle">П.н.</div>
+					<div class="divTableCelltitle">Код 1С</div>
+					<div class="divTableCelltitle">Штрихкод</div>
+					<div class="divTableCelltitle">Назва</div>
+					<div class="divTableCelltitle">Кст</div>
+					<div class="divTableCelltitle">Дата та час внесення</div>
+					<div class="divTableCelltitle">Відділ</div>
+					<div class="divTableCelltitle">Код рядка</div>
+				</div>
+			</div>
+
+			<div class="divTableBody" id = "billtable">
+				{% for tablerow in table %}
+					{% if param.4 == tablerow.1 %} {% set thechosenskulass='chosensku' %} {% endif %}
+					<div class="divTableRow {{ thechosenskulass }}" idRow="{{tablerow.6}}" kod1C="{{tablerow.0}}" sk="{{tablerow.1}}" itemName="{{tablerow.2}}" qty = "{{tablerow.3}}">
+						<div class="divTableCell ">{{ loop.index }}</div>
+						<div id = "idKod{{tablerow.6}}" class="divTableCell ">{{tablerow.0}}</div>
+						<div class="divTableCell ">{{tablerow.1}}</div>
+						<div class="divTableCell divChoosable">{{tablerow.2}}</div>
+						<div class="divTableCell divChoosable" id = "qty{{tablerow.6}}">{{tablerow.3}}</div>
+						<div class="divTableCell ">{{tablerow.4}}</div>
+						<div class="divTableCell ">{{tablerow.5}}</div>
+						<div class="divTableCell ">{{tablerow.6}}</div>
+					</div>			
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+</div>
+	<br />
+	<br />
+
+	<div class="row" align="center">
+		<p id="myflash"></p>
+	</div>
+	<div class="row" align="center">
+		<input id = "upload" type="button" value="Вивантажити" class="btn btn-primary upload-button" />
+	</div>
+	<br />
+	<br />
+	<div class="row" align="center">
+		<input id="btnchoosedep" type="button" value="Вибрати/змінити відділ" onclick="window.location.href='http://localhost:5000{{ url_for('departments') }}'" />
+	</div>
+	<br />
+	<br />
+	<div class="row" align="center">
+		<input id="btnskmanually" type="button" value="Пошук по штрихкоду" onclick="window.location.href='{{ url_for('searchforcod') }}'"/>
+	</div>
+
+	<!-- 
+	<div class="row" align="center">
+		{% with messages = get_flashed_messages() %}
+		  {% if messages %}
+			<ul class=flashes>
+			{% for message in messages %}
+			  <li>{{ message }}</li>
+			{% endfor %}
+			</ul>
+		  {% endif %}
+		{% endwith %}	
+	</div>
+	 -->
+
+	<!-- javascript -->
+		<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+</html>

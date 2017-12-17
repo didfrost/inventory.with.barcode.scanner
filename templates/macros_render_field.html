@@ -1,0 +1,8 @@
+{% macro render_field(myLabel,myFieldId,myFieldText,idField) %}
+	<div class="control-group">
+	  <label id = "{{idField}}" value = "{{myFieldId}}" class="control-label label-text">{{myLabel}}:</label>
+	  <label id = "{{idField}}Text" class="control-label value-text">
+		{{myFieldText}}
+	  </label>
+	</div>		
+{% endmacro %}

@@ -1,0 +1,41 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <title>Відділи</title>
+
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <style></style>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+  <script src="{{ url_for('static', filename='js/departments.js') }}"></script>
+  
+</head>
+
+<body>
+<div class="row">
+  <div class="col-sm-8" style="background-color: #2eb8b3; height: 50px; border: solid 3px">Відділ</div>
+  <div class="col-sm-4" style="background-color: #2eb8b3; height: 50px; border: solid 3px">К-сть рядків</div>
+</div>
+<div class="row">
+{% for res in result %}
+
+{% if dep.1 == res.0 %}
+  <div class="col-sm-8 departmentRow depId{{ res.0 }}" value="{{ res.0 }}" style="background-color:red; height: 35px; border: 1px solid" > {{ res.1 }}</div>
+  <div class="col-sm-4 departmentRow depId{{ res.0 }}" value="{{ res.0 }}" style="background-color:red; height: 35px; border: 1px solid" > {{ res.2 }}</div>
+{% else %}
+  <div class="col-sm-8 departmentRow depId{{ res.0 }}" value="{{ res.0 }}" style="background-color:lightcyan; height: 35px; border: 1px solid" > {{ res.1 }}</div>
+  <div class="col-sm-4 departmentRow depId{{ res.0 }}" value="{{ res.0 }}" style="background-color:lightcyan; height: 35px; border: 1px solid" > {{ res.2 }}</div>
+{% endif %}
+
+{% endfor %}
+</div>
+  
+<!-- javascript -->
+	<script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+
+</body>
+</html>

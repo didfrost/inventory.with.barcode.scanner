@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}" />	
+	
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="{{ url_for('static', filename='js/jquery2.js') }}"></script>
+
+
+
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Manager Cafe</title>
+ </head>
+ <body>
+  <table width="100%" cellspacing="0" cellpadding="4" border="1" id = "table">
+   <tr>
+    <td width="200" rowspan=2 id="tddishes">
+		{% for dict_item in result %}
+			<div id = "menu{{dict_item.0}}" class = "menudishes">
+				{{ dict_item.1 }}
+			</div>
+		{% endfor %}		 
+	</td>
+		<td>
+			OK
+		</td>
+   </tr>
+   <tr>
+    <td id = "tdbill">
+
+<div class="divTable" >
+<div class="divTableBody">
+<div class="divTableRow">
+<div class="divTableCelltitle">Dishes</div>
+<div class="divTableCelltitle">+</div>
+<div class="divTableCelltitle">-</div>
+<div class="divTableCelltitle">Quantity</div>
+<div class="divTableCelltitle">Price</div>
+<div class="divTableCelltitle">Suma</div>
+</div>
+</div>
+
+<div class="divTableBody" id = "billtable">
+</div>
+
+</div>
+	</td>
+   </tr>
+  </table>
+ </body>
+</html>
